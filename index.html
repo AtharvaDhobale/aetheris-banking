@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AETHERIS | Enterprise Banking & Core Ledger Platform</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        :root {
+            --brand-blue: #0052cc;
+            --brand-blue-dark: #003d99;
+            --bg-page: #f8fafc;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-muted: #94a3b8;
+            --border-light: #e2e8f0;
+            --radius-md: 12px;
+            --radius-lg: 20px;
+            --shadow-md: 0 4px 20px rgba(0,82,204,0.06);
+            --shadow-lg: 0 10px 30px rgba(0,82,204,0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--bg-page);
+            color: var(--text-primary);
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Header */
+        header {
+            padding: 24px 0;
+            border-bottom: 1px solid var(--border-light);
+            background: #fff;
+        }
+
+        .header-wrap {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--brand-blue);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 18px;
+            box-shadow: 0 4px 12px rgba(0,82,204,0.3);
+        }
+
+        .brand-text h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 16px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            color: var(--text-primary);
+            line-height: 1.1;
+        }
+
+        .brand-text span {
+            font-size: 9px;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 80px 0;
+            text-align: center;
+            background: radial-gradient(circle at top, #e8f0fe 0%, var(--bg-page) 100%);
+        }
+
+        .hero h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 44px;
+            font-weight: 800;
+            color: var(--text-primary);
+            line-height: 1.15;
+            letter-spacing: -1px;
+            margin-bottom: 20px;
+        }
+
+        .hero h2 span {
+            color: var(--brand-blue);
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: var(--text-secondary);
+            max-width: 680px;
+            margin: 0 auto 36px;
+        }
+
+        .cta-buttons {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 28px;
+            border-radius: var(--radius-md);
+            font-size: 15px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: var(--brand-blue);
+            color: #fff;
+            box-shadow: 0 4px 14px rgba(0,82,204,0.3);
+        }
+
+        .btn-primary:hover {
+            background: var(--brand-blue-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,82,204,0.4);
+        }
+
+        .btn-secondary {
+            background: #fff;
+            color: var(--text-secondary);
+            border: 1.5px solid var(--border-light);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--brand-blue);
+            color: var(--brand-blue);
+            transform: translateY(-2px);
+        }
+
+        /* Features Section */
+        .features {
+            padding: 60px 0;
+            background: #fff;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        .section-title h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 26px;
+            font-weight: 800;
+            color: var(--text-primary);
+        }
+
+        .section-title p {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin-top: 4px;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .feature-card {
+            background: var(--bg-page);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-md);
+            padding: 28px;
+            transition: all 0.25s ease;
+        }
+
+        .feature-card:hover {
+            background: #fff;
+            border-color: var(--brand-blue);
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-4px);
+        }
+
+        .feature-icon {
+            width: 44px;
+            height: 44px;
+            background: #e8f0fe;
+            color: var(--brand-blue);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        .feature-card h4 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 10px;
+        }
+
+        .feature-card p {
+            font-size: 13.5px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        /* Tech Spec Section */
+        .spec {
+            padding: 60px 0;
+            background: var(--bg-page);
+            border-top: 1px solid var(--border-light);
+        }
+
+        .spec-wrap {
+            background: #fff;
+            border: 1.5px solid var(--border-light);
+            border-radius: var(--radius-lg);
+            padding: 40px;
+            box-shadow: var(--shadow-md);
+        }
+
+        .spec-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+
+        .spec-col h4 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .spec-col h4 i {
+            color: var(--brand-blue);
+        }
+
+        .spec-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .spec-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .spec-item i {
+            color: var(--brand-blue);
+            margin-top: 4px;
+            font-size: 12px;
+        }
+
+        /* Footer */
+        footer {
+            padding: 30px 0;
+            text-align: center;
+            border-top: 1px solid var(--border-light);
+            background: #fff;
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        footer a {
+            color: var(--brand-blue);
+            text-decoration: none;
+        }
+
+        @media (max-width: 800px) {
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+            .spec-grid {
+                grid-template-columns: 1fr;
+            }
+            .hero h2 {
+                font-size: 32px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="container header-wrap">
+            <div class="brand">
+                <div class="brand-icon">
+                    <i class="fa-solid fa-building-columns"></i>
+                </div>
+                <div class="brand-text">
+                    <h1>AETHERIS</h1>
+                    <span>Banking Core Console</span>
+                </div>
+            </div>
+            <a href="https://github.com/AtharvaDhobale/aetheris-banking" class="btn btn-secondary" style="padding: 8px 16px; font-size: 13px;">
+                <i class="fa-brands fa-github"></i> GitHub Code
+            </a>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="container">
+            <h2>The Ultimate <span>Double-Entry</span> Corporate Banking Engine</h2>
+            <p>Designed for clerks, cashiers, and Chartered Accountants. Features dual-control maker-checker queues, anti-money laundering automated screenings, and immutable security log streams.</p>
+            <div class="cta-buttons">
+                <!-- CTA buttons linking locally and to Render instructions -->
+                <a href="http://localhost:8080/dashboard" class="btn btn-primary">
+                    <i class="fa-solid fa-terminal"></i> Launch Local Core Console
+                </a>
+                <a href="https://github.com/AtharvaDhobale/aetheris-banking#cloud-deployment-guidelines" class="btn btn-secondary">
+                    <i class="fa-solid fa-cloud"></i> Deploy to Render
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section class="features">
+        <div class="container">
+            <div class="section-title">
+                <h3>Core Platform Functionality</h3>
+                <p>Designed to replicate true private banking workflows and cash audit procedures</p>
+            </div>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                    <h4>Maker-Checker Queue</h4>
+                    <p>Enforce strict internal verification. Tellers and clerks draft payables, receivables, or vouchers while managers approve them to post onto the ledger.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fa-solid fa-scale-balanced"></i></div>
+                    <h4>Balanced Double Entry</h4>
+                    <p>Real-time chart of accounts registry. Mandatory balanced debits and credits on every journal voucher to ensure error-free trial balance outputs.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fa-solid fa-vault"></i></div>
+                    <h4>Cashier vault desk</h4>
+                    <p>Tellers process deposits and withdrawals, perform cash handovers, and audit vault totals with automated note denomination calculators.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fa-solid fa-piggy-bank"></i></div>
+                    <h4>FD & RD Management</h4>
+                    <p>Log fixed deposits and recurring deposits, calculate compound maturity amounts automatically, and trigger payout updates.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fa-solid fa-repeat"></i></div>
+                    <h4>Standing Instructions</h4>
+                    <p>Deploy weekly or monthly auto-debit transfers for regular vendor billing cycles or corporate utility expenses.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fa-solid fa-landmark"></i></div>
+                    <h4>Credit & Loan Facilities</h4>
+                    <p>Issue business credit facilities and term loans, and dynamically render declining balance amortization installment calendars.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Specs -->
+    <section class="spec">
+        <div class="container spec-wrap">
+            <div class="spec-grid">
+                <div class="spec-col">
+                    <h4><i class="fa-solid fa-microchip"></i> System Architecture</h4>
+                    <div class="spec-list">
+                        <div class="spec-item">
+                            <i class="fa-solid fa-circle-chevron-right"></i>
+                            <span><strong>Backend Core:</strong> Java 17 + Spring Boot 3.2 + Spring Security (Stateless MVC).</span>
+                        </div>
+                        <div class="spec-item">
+                            <i class="fa-solid fa-circle-chevron-right"></i>
+                            <span><strong>Storage Ledger:</strong> In-memory H2 Database for immediate local testing with data seeding.</span>
+                        </div>
+                        <div class="spec-item">
+                            <i class="fa-solid fa-circle-chevron-right"></i>
+                            <span><strong>UI Components:</strong> Thymeleaf Server-Side templates styled with corporate white/blue layouts.</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="spec-col">
+                    <h4><i class="fa-solid fa-user-lock"></i> Compliance &amp; Security</h4>
+                    <div class="spec-list">
+                        <div class="spec-item">
+                            <i class="fa-solid fa-circle-chevron-right"></i>
+                            <span><strong>AML Controls:</strong> Suspicious high-value transfers flag automatically for manual compliance overrides.</span>
+                        </div>
+                        <div class="spec-item">
+                            <i class="fa-solid fa-circle-chevron-right"></i>
+                            <span><strong>Immutable Audit Trails:</strong> Every operator activity, browser configuration, and IP address is permanently logged.</span>
+                        </div>
+                        <div class="spec-item">
+                            <i class="fa-solid fa-circle-chevron-right"></i>
+                            <span><strong>Zero-Trust Roles:</strong> Administrators, CA Auditors, and Account Clerks have compartmentalized authority bounds.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Aetheris Financial Technologies. Core Engine developed by <a href="https://github.com/AtharvaDhobale">Atharva Dhobale</a>.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
