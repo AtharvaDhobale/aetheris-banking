@@ -1,0 +1,17 @@
+*.zip
+target/
+.git/
+.mvn/
+mvnw
+mvnw.bat
+.vscode/
+*.log
+*.err
+*.md
+Dockerfile
+docker-compose.yml
+setup-windows.bat
+start-databases.bat
+start-databases.sh
+stop-databases.bat
+stop-databases.sh
