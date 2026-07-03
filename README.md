@@ -1,67 +1,84 @@
-# Aetheris Banking & Accounting Core
+# 🏦 Aetheris Banking Core — Secure Digital System for Enterprise Ledger Management
 
-A comprehensive, bank-grade Java + Spring Boot accounting and core ledger platform with role-based maker-checker approvals, automated AML compliance rules, immutable audit logging, credit facility scheduling, and a professional corporate banking light theme interface.
-
-GitHub Repository: [https://github.com/AtharvaDhobale/aetheris-banking](https://github.com/AtharvaDhobale/aetheris-banking)  
-Vercel Deployment: [https://aetheris-banking.vercel.app](https://aetheris-banking.vercel.app)
-
----
-
-## 🏦 Key Features & Dual-Control Banking Protocols
-
-- **Dual-Control Maker-Checker Approval System**: General clerks and employees queue up invoices, journal vouchers, and vendor payments into a pending approval stream. Designated administrators or Chartered Accountants (CAs) review, authorize, or reject them.
-- **Anti-Money Laundering (AML) Compliance Engine**: Real-time screening flags high-value transactions (>= 500,000 INR) as `FLAGGED_HIGH_RISK`, instantly alerting compliance officers and locking the transaction pending manual override.
-- **Immutable Audit Logging**: Every transaction, login, and authorization action automatically records security telemetry, capturing user authorities, client IP addresses, browser User-Agent details, and risk flags.
-- **Credit Lines & Loan Amortization**: Sanction business loan limits and automatically generate reducing-balance amortization schedules (EMI, interest component, principal split, and outstanding principal).
-- **Interactive Bank Reconciliation**: Match internal bank ledger entries with simulated external bank statements visually with reconciliation difference calculations.
-- **Professional Light Banking Interface**: Re-themed with a modern white and blue banking layout, Outfit/Space Grotesk typography, responsive sidebar navigation, clean forms, and custom CSS layout transitions.
-- **Tax Calendar & Reminders**: Track statutory GST filing, advance income tax, and compliance due dates with active countdowns and penalty estimations.
-- **CA Knowledge Base**: Searchable resource repository containing standard banking tax rules, formulas, and accounting standard references.
+[![Live Demo](https://img.shields.io/badge/Live_Demo-View_App-success?style=for-the-badge&logo=vercel&logoColor=white&color=0052cc)](https://aetheris-banking.vercel.app/)
+[![Java](https://img.shields.io/badge/Java-17%2B-ED8B00?style=for-the-badge&logo=java&logoColor=white)](https://www.java.com/)
+[![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.2-6DB33F?style=for-the-badge&logo=spring-boot&logoColor=white)](https://spring.io/projects/spring-boot)
+[![Thymeleaf](https://img.shields.io/badge/Thymeleaf-HTML5-005F00?style=for-the-badge&logo=thymeleaf&logoColor=white)](https://www.thymeleaf.org/)
+[![Database](https://img.shields.io/badge/Database-H2_Embedded-blue?style=for-the-badge&logo=databricks&logoColor=white)](https://www.h2database.com/)
 
 ---
 
-## 💻 Tech Stack
-- **Backend**: Java 17, Spring Boot 3.2, Spring Security, Spring Data JPA
-- **Database**: H2 In-Memory Database (configured for zero-setup execution; no Docker, PostgreSQL, or MongoDB required to start)
-- **Frontend**: HTML5, CSS3 (Custom Light Banking Theme), JavaScript, Thymeleaf
-- **Build Tool**: Maven
+### 🌐 Live Deployment
+> [!IMPORTANT]
+> **Experience the live deployment portal here:** **[https://aetheris-banking.vercel.app/](https://aetheris-banking.vercel.app/)**
+> 
+> *The static core gateway is deployed on **Vercel** with full platform feature specifications and links. The local server instance operates locally on port `8080` (with H2 database structures).*
 
 ---
 
-## 🚀 Run Locally
-1. Ensure you have **Java 17+** and **Maven** installed.
-2. Clone or download the repository.
-3. Open your terminal in the project directory and run:
-   ```bash
-   mvn spring-boot:run
-   ```
-4. Once started, access the application in your browser:
-   - **Main Core Terminal**: `http://localhost:8080/dashboard`
-   - **H2 Database Console**: `http://localhost:8080/h2-console`
-     - *JDBC URL*: `jdbc:h2:mem:accounting_db`
-     - *Username*: `sa`
-     - *Password*: (leave empty)
+A production-ready, bank-grade core accounting and ledger platform architected to manage enterprise-level transaction records, vault cashier operations, and financial auditing. Engineered with double-entry ledger bookkeeping, this system leverages **Spring Boot**, **Spring Security**, and an embedded **H2 Database** context to deliver a secure, zero-dependency banking infrastructure.
 
-### Secure Credentials
-- **Administrator**: `admin` / `admin123`
-- **Accountant / Clerk**: `employee` / `employee123`
-- **CA / Auditor**: `causer` / `ca123`
+## 🚀 Project Overview
+
+The financial sector demands zero-tolerance data integrity, rigorous audit telemetry, and dual-control security. **Aetheris Banking Core** addresses operational risks in corporate banking by enforcing maker-checker segregation, automated anti-money laundering (AML) checks, and cash denomination vault audits. 
+
+As the **Project Lead**, I spearheaded the system design, RESTful API architecture, JPA schema seeding, and the premium white-blue corporate interface overhaul.
+
+## 🛠️ Technology Stack & Architecture
+
+- **Backend Architecture:** Java 17, Spring Boot 3.2, Spring Security (Stateless Authorization), Maven
+- **Database & Persistence:** H2 In-Memory Relational Engine (Zero setup overhead)
+- **Frontend Ecosystem:** Thymeleaf Server-Side Templates, Vanilla JavaScript (ES6+), FontAwesome Icons, Custom Light Theme CSS
+- **Compliance & Controls:** Anti-Money Laundering (AML) Rules Engine, Immutable Telemetry Logging, Dual-Control Workflow
+- **DevOps & Hosting:** Git/GitHub, Vercel (Frontend Static Gateway), Docker ready (with root `Dockerfile` and `docker-compose`)
+
+## ✨ Technical Achievements & Key Features
+
+- **Dual-Control Maker-Checker Workflow:** Clerks (Makers) record transaction drafts (Invoices, Payments, Journal Vouchers), while authorized Administrators or Chartered Accountants (Checkers) inspect and verify them before posting to the ledger.
+- **Anti-Money Laundering (AML) Rules Engine:** Automated checks scan net values. Transactions $\ge 500,000\text{ INR}$ are flagged `FLAGGED_HIGH_RISK`, suspending execution and generating compliance warnings.
+- **Teller Cash Vault Drawer:** Cashiers process vault deposits/withdrawals, calculate denomination totals (₹2000 down to ₹10 notes), and match cash counts against drawer records.
+- **Fixed & Recurring Deposits Ledger:** Manage compound interest FD accounts, tenure terms, and trigger matured payouts.
+- **Cheques Transit Clearing House:** Record deposited cheques, log routing codes (IFSC/MICR), and clear or bounce transit instruments.
+- **Standing Orders & Auto-Debits:** Deploy recurring scheduled instructions for periodic vendor payouts and collections.
+- **Credit Lines & reducing Loan Amortization:** Track corporate loan accounts and dynamically render interest schedules.
+
+## 👥 Project Team
+
+- **Project Lead:** Atharva Dhobale  
+- **GitHub Account:** [AtharvaDhobale](https://github.com/AtharvaDhobale)
+
+*This application was developed as a high-fidelity corporate banking system demonstrating security controls, double-entry trial balances, and cashier workflows.*
+
+## ⚙️ Local Installation & Setup
+
+### Prerequisites
+- Java 17+ (JDK)
+- Maven 3.8+
+
+### 1. Build and Compile
+```bash
+git clone https://github.com/AtharvaDhobale/aetheris-banking.git
+cd aetheris-banking
+mvn clean install
+```
+
+### 2. Run the Application
+```bash
+mvn spring-boot:run
+```
+*The core banking server will initialize on `http://localhost:8080`*
+
+### 3. Test Credentials
+Access the console at `http://localhost:8080/dashboard` and authenticate with:
+- **Administrator / Checker**: `admin` / `admin123`
+- **Account Clerk / Maker**: `employee` / `employee123`
+- **CA Auditor**: `causer` / `ca123`
+
+## 🔒 Security & Auditing Standards
+
+- **Stateless Role Access Control:** Compartmentalized authorizations restrict clerks from clearing their own created vouchers.
+- **Immutable Log Telemetry:** Captures IP addresses, browser configurations, transaction values, and risk levels.
+- **Double-Entry Safeguards:** Enforces balanced Debit and Credit validation rules before ledger commits.
 
 ---
-
-## ☁️ Deployment Guidelines
-
-Since this is a full-featured Java Spring Boot application (requiring a persistent JVM process and relational database context), it is not compatible with frontend-only hosting services like Vercel. 
-
-### Render (Recommended & Free)
-Render compiles and deploys Spring Boot applications using the repository's `Dockerfile`:
-1. Log in to [Render](https://render.com).
-2. Click **New +** and choose **Web Service**.
-3. Connect your GitHub repository: `https://github.com/AtharvaDhobale/aetheris-banking.git`.
-4. Render will build the container from the root `Dockerfile` and publish the app at a custom `.onrender.com` domain.
-
-### Railway (Instant Git Deployment)
-1. Log in to [Railway](https://railway.app).
-2. Click **New Project** and select **Deploy from GitHub**.
-3. Choose the `aetheris-banking` repository.
-4. Railway will automatically detect Maven, build the project, and provision a public URL.
+*Built for absolute financial precision and secure transaction processing.*
