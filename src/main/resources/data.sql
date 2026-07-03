@@ -1,0 +1,1 @@
+-- Empty data file. Database seeding is handled programmatically by DataInitializer.java

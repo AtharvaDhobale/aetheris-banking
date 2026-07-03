@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AETHERIS | Enterprise Banking & Accounting Core</title>
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+</head>
+<body>
+    <!-- Toast Notification Container -->
+    <div id="toast-container"></div>
+
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="brand">
+                <i class="fa-solid fa-building-columns brand-icon"></i>
+                <div class="brand-text">
+                    <h2>AETHERIS</h2>
+                    <span>BANKING & ACCOUNTING CORE</span>
+                </div>
+            </div>
+            
+            <nav class="nav-menu">
+                <a href="#" class="nav-item active" data-tab="overview">
+                    <i class="fa-solid fa-chart-line"></i> <span>Executive Overview</span>
+                </a>
+                <a href="#" class="nav-item" data-tab="maker-checker">
+                    <i class="fa-solid fa-shield-halved"></i> <span>Maker-Checker Queue</span>
+                    <span class="badge badge-warning" id="pending-approvals-badge">0</span>
+                </a>
+                <a href="#" class="nav-item" data-tab="ledger">
+                    <i class="fa-solid fa-book"></i> <span>General Ledger</span>
+                </a>
+                <a href="#" class="nav-item" data-tab="journal">
+                    <i class="fa-solid fa-pen-to-square"></i> <span>Double Entry Journal</span>
+                </a>
+                <a href="#" class="nav-item" data-tab="reconciliation">
+                    <i class="fa-solid fa-scale-balanced"></i> <span>Bank Reconciliation</span>
+                </a>
+                <a href="#" class="nav-item" data-tab="loans">
+                    <i class="fa-solid fa-landmark"></i> <span>Credit & Loan Facilities</span>
+                </a>
+                <a href="#" class="nav-item" data-tab="invoices">
+                    <i class="fa-solid fa-file-invoice-dollar"></i> <span>Invoices & Customers</span>
+                </a>
+                <a href="#" class="nav-item" data-tab="payments">
+                    <i class="fa-solid fa-money-bill-transfer"></i> <span>Vendor Payments</span>
+                </a>
+                <a href="#" class="nav-item" data-tab="depreciation">
+                    <i class="fa-solid fa-calculator"></i> <span>Asset Depreciation</span>
+                </a>
+                <a href="#" class="nav-item" data-tab="tax-gst">
+                    <i class="fa-solid fa-percent"></i> <span>GST & Tax Filing</span>
+                </a>
+                <a href="#" class="nav-item" data-tab="tenders">
+                    <i class="fa-solid fa-handshake-simple"></i> <span>Procurement Tenders</span>
+                </a>
+                <a href="#" class="nav-item" data-tab="compliance">
+                    <i class="fa-solid fa-user-shield"></i> <span>Compliance Audit Logs</span>
+                    <span class="badge badge-danger" id="risk-alerts-badge">0</span>
+                </a>
+                <a href="#" class="nav-item" data-tab="knowledge">
+                    <i class="fa-solid fa-graduation-cap"></i> <span>CA Knowledge Base</span>
+                </a>
+            </nav>
+
+            <div class="user-profile">
+                <div class="user-avatar">
+                    <i class="fa-solid fa-user-tie"></i>
+                </div>
+                <div class="user-info">
+                    <span class="user-name">Aetheris Admin</span>
+                    <span class="user-role">Enterprise Account Handler</span>
+                </div>
+                <a class="logout-btn" th:href="@{/logout}" title="Logout">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="top-header">
+                <div class="header-search">
+                    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                    <input id="global-search-input" type="search" placeholder="Quick search accounts, formulas, procedures..." />
+                    <ul id="global-suggestions" class="global-suggestions-dropdown"></ul>
+                </div>
+                <div class="header-actions">
+                    <div class="system-status">
+                        <span class="status-indicator online"></span>
+                        <span>CORE NODE SECURE</span>
+                    </div>
+                    <div class="action-divider"></div>
+                    <button class="theme-toggle" title="Switch Theme">
+                        <i class="fa-solid fa-moon"></i>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Scrollable Page Wrapper -->
+            <div class="page-wrapper">
+                
+                <!-- TAB: EXECUTIVE OVERVIEW -->
+                <section id="tab-overview" class="tab-pane active">
+                    <div class="panel-header">
+                        <h1>Executive Overview</h1>
+                        <p>Real-time corporate accounts summary and AML analytics</p>
+                    </div>
+
+                    <!-- Metrics Grid -->
+                    <div class="metrics-grid">
+                        <div class="metric-card">
+                            <div class="metric-icon bank"><i class="fa-solid fa-wallet"></i></div>
+                            <div class="metric-data">
+                                <h3>Total Bank Funds</h3>
+                                <span class="metric-value" id="metric-funds">₹0.00</span>
+                                <span class="metric-subtext">Active operational cash limit</span>
+                            </div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-icon pending"><i class="fa-solid fa-clock"></i></div>
+                            <div class="metric-data">
+                                <h3>Pending Actions</h3>
+                                <span class="metric-value" id="metric-pending">0</span>
+                                <span class="metric-subtext">Maker-Checker approvals queue</span>
+                            </div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-icon alert"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                            <div class="metric-data">
+                                <h3>Compliance Warnings</h3>
+                                <span class="metric-value text-danger" id="metric-alerts">0</span>
+                                <span class="metric-subtext">High risk AML violations flagged</span>
+                            </div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-icon credit"><i class="fa-solid fa-building-columns"></i></div>
+                            <div class="metric-data">
+                                <h3>Credit Facilities</h3>
+                                <span class="metric-value" id="metric-credit">₹0.00</span>
+                                <span class="metric-subtext">Utilized corporate credit lines</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Main Grid Split -->
+                    <div class="split-layout">
+                        <!-- Left Block -->
+                        <div class="layout-main">
+                            <!-- Live Activity Chart -->
+                            <div class="glass-card">
+                                <div class="card-header">
+                                    <h2><i class="fa-solid fa-chart-area" style="color:var(--sapphire-light);margin-right:8px;"></i>Live Transaction Activity</h2>
+                                    <span style="font-size:11px;color:var(--text-muted);font-family:var(--font-mono);">7-day rolling</span>
+                                </div>
+                                <div class="chart-container">
+                                    <canvas id="live-activity-chart"></canvas>
+                                </div>
+                            </div>
+
+                            <div class="glass-card">
+                                <div class="card-header">
+                                    <h2><i class="fa-solid fa-bolt" style="color:var(--warning);margin-right:8px;"></i>System Activity Stream</h2>
+                                    <button class="btn btn-secondary btn-sm" id="btn-refresh-dashboard">
+                                        <i class="fa-solid fa-arrows-rotate"></i> Reload
+                                    </button>
+                                </div>
+                                <div id="dashboard-content" class="activity-timeline">
+                                    <!-- Dynamic logs -->
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Right Block -->
+                        <div class="layout-side">
+                            <div class="glass-card">
+                                <div class="card-header">
+                                    <h2><i class="fa-solid fa-users" style="color:var(--success);margin-right:8px;"></i>Employee Performance Today</h2>
+                                </div>
+                                <div id="employee-reports-content" class="performance-list">
+                                    <!-- Dynamic performance -->
+                                </div>
+                            </div>
+
+                            <!-- Quick Actions Card -->
+                            <div class="glass-card">
+                                <div class="card-header">
+                                    <h2><i class="fa-solid fa-zap" style="color:var(--gold);margin-right:8px;"></i>Quick Actions</h2>
+                                </div>
+                                <div style="display:flex;flex-direction:column;gap:8px;">
+                                    <button class="btn btn-secondary" style="justify-content:flex-start;gap:10px;" onclick="switchTab('invoices')">
+                                        <i class="fa-solid fa-file-invoice-dollar" style="color:var(--sapphire-light);"></i> New Invoice
+                                    </button>
+                                    <button class="btn btn-secondary" style="justify-content:flex-start;gap:10px;" onclick="switchTab('payments')">
+                                        <i class="fa-solid fa-money-bill-transfer" style="color:var(--success);"></i> New Vendor Payment
+                                    </button>
+                                    <button class="btn btn-secondary" style="justify-content:flex-start;gap:10px;" onclick="switchTab('journal')">
+                                        <i class="fa-solid fa-pen-to-square" style="color:var(--warning);"></i> Post Journal Entry
+                                    </button>
+                                    <button class="btn btn-secondary" style="justify-content:flex-start;gap:10px;" onclick="switchTab('maker-checker')">
+                                        <i class="fa-solid fa-shield-halved" style="color:var(--danger);"></i> Review Approvals
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- TAB: MAKER-CHECKER QUEUE -->
+                <section id="tab-maker-checker" class="tab-pane">
+                    <div class="panel-header">
+                        <h1>Maker-Checker Authorization Queue</h1>
+                        <p>Review and authorize pending transactions (Dual-Control Banking Protocol)</p>
+                    </div>
+
+                    <div class="glass-card">
+                        <div class="approvals-container">
+                            <div class="approvals-section">
+                                <h3><i class="fa-solid fa-file-invoice-dollar text-primary"></i> Pending Invoices</h3>
+                                <div class="table-responsive">
+                                    <table class="premium-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Reference</th>
+                                                <th>Customer</th>
+                                                <th>Date</th>
+                                                <th>Amount</th>
+                                                <th>Status</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="pending-invoices-tbody">
+                                            <tr><td colspan="6" class="text-center">No pending invoices</td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="approvals-section mt-4">
+                                <h3><i class="fa-solid fa-money-bill-transfer text-success"></i> Pending Vendor Payments</h3>
+                                <div class="table-responsive">
+                                    <table class="premium-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Vendor Name</th>
+                                                <th>Invoice No.</th>
+                                                <th>GSTIN</th>
+                                                <th>Total Amount</th>
+                                                <th>Status</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="pending-payments-tbody">
+                                            <tr><td colspan="6" class="text-center">No pending payments</td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="approvals-section mt-4">
+                                <h3><i class="fa-solid fa-pen-to-square text-warning"></i> Pending Journal Entry Vouchers</h3>
+                                <div class="table-responsive">
+                                    <table class="premium-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Voucher</th>
+                                                <th>Date</th>
+                                                <th>Debit Account</th>
+                                                <th>Credit Account</th>
+                                                <th>Amount</th>
+                                                <th>Status</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="pending-journals-tbody">
+                                            <tr><td colspan="7" class="text-center">No pending journal entries</td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- TAB: GENERAL LEDGER -->
+                <section id="tab-ledger" class="tab-pane">
+                    <div class="panel-header">
+                        <h1>General Ledger Accounts</h1>
+                        <p>Chart of ledger accounts and real-time balances</p>
+                    </div>
+
+                    <div class="split-layout">
+                        <div class="layout-main">
+                            <div class="glass-card">
+                                <div class="card-header">
+                                    <h2>Active Chart of Accounts</h2>
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="premium-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Code</th>
+                                                <th>Account Name</th>
+                                                <th>Type</th>
+                                                <th>Balance</th>
+                                                <th>Created Date</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="ledger-accounts-tbody">
+                                            <!-- Dynamic accounts -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="layout-side">
+                            <div class="glass-card">
+                                <div class="card-header">
+                                    <h2>Add New Ledger Account</h2>
+                                </div>
+                                <form id="form-create-account" class="premium-form">
+                                    <div class="form-group">
+                                        <label for="acc-code">Account Code</label>
+                                        <input type="text" id="acc-code" placeholder="e.g. 1050" required />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="acc-name">Account Name</label>
+                                        <input type="text" id="acc-name" placeholder="e.g. Petty Cash Reserve" required />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="acc-type">Account Type</label>
+                                        <select id="acc-type" required>
+                                            <option value="ASSET">ASSET</option>
+                                            <option value="LIABILITY">LIABILITY</option>
+                                            <option value="EQUITY">EQUITY</option>
+                                            <option value="INCOME">INCOME</option>
+                                            <option value="EXPENSE">EXPENSE</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="acc-balance">Opening Balance (₹)</label>
+                                        <input type="number" id="acc-balance" value="0.00" step="0.01" />
+                                    </div>
+                                    <button type="submit" class="btn btn-primary btn-block">Initialize Account</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- TAB: DOUBLE ENTRY JOURNAL -->
+                <section id="tab-journal" class="tab-pane">
+                    <div class="panel-header">
+                        <h1>Double Entry Journal Posting</h1>
+                        <p>Create vouchers with mandatory debit and credit balance matching</p>
+                    </div>
+
+                    <div class="split-layout">
+                        <div class="layout-main">
+                            <div class="glass-card">
+                                <div class="card-header">
+                                    <h2>Journal Voucher Entries History</h2>
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="premium-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Voucher</th>
+                                                <th>Date</th>
+                                                <th>Debit Account</th>
+                                                <th>Credit Account</th>
+                                                <th>Amount</th>
+                                                <th>Status</th>
+                                                <th>Description</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="journal-entries-tbody">
+                                            <!-- Dynamic entries -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="layout-side">
+                            <div class="glass-card">
+                                <div class="card-header">
+                                    <h2>Create Journal Voucher</h2>
+                                </div>
+                                <form id="form-create-journal" class="premium-form">
+                                    <div class="form-group">
+                                        <label for="jv-voucher">Voucher Number</label>
+                                        <input type="text" id="jv-voucher" placeholder="e.g. JV-999" required />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="jv-date">Entry Date</label>
+                                        <input type="date" id="jv-date" required />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="jv-debit">Debit Account</label>
+                                        <select id="jv-debit" required>
+                                            <!-- Dynamic accounts -->
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="jv-credit">Credit Account</label>
+                                        <select id="jv-credit" required>
+                                            <!-- Dynamic accounts -->
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="jv-amount">Amount (₹)</label>
+                                        <input type="number" id="jv-amount" placeholder="0.00" step="0.01" required />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="jv-desc">Memo/Description</label>
+                                        <textarea id="jv-desc" rows="3" placeholder="Enter compliance explanation..." required></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="jv-type">Voucher Type</label>
+                                        <select id="jv-type" required>
+                                            <option value="GENERAL">General Journal</option>
+                                            <option value="PAYMENT">Cash Payment</option>
+                                            <option value="RECEIPT">Cash Receipt</option>
+                                            <option value="ADJUSTMENT">Adjusting Entry</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <!-- Double Entry Live Balancing Validation Box -->
+                                    <div class="compliance-box info-box mb-3" id="journal-balance-alert">
+                                        <i class="fa-solid fa-scale-unbalanced text-warning"></i>
+                                        <span>Debit matches Credit. Ready to submit for review.</span>
+                                    </div>
+
+                                    <button type="submit" class="btn btn-primary btn-block">Submit for Authorization</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- TAB: BANK RECONCILIATION -->
+                <section id="tab-reconciliation" class="tab-pane">
+                    <div class="panel-header">
+                        <h1>Bank Reconciliation Workspace</h1>
+                        <p>Match internal bank ledger balances with external bank statements</p>
+                    </div>
+
+                    <div class="glass-card">
+                        <div class="reconciliation-toolbar">
+                            <div class="form-group mb-0 mr-3">
+                                <label for="reconcile-account-select" class="sr-only">Select Account</label>
+                                <select id="reconcile-account-select" class="form-control">
+                                    <!-- Dynamic asset accounts -->
+                                </select>
+                            </div>
+                            <button class="btn btn-primary" id="btn-load-reconciliation">Load Workspace</button>
+                        </div>
+
+                        <div class="reconcile-workspace-grid mt-4" id="reconcile-workspace" style="display: none;">
+                            <div class="recon-side-ledger">
+                                <h3>Internal General Ledger Entries</h3>
+                                <div class="table-responsive">
+                                    <table class="premium-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Match</th>
+                                                <th>Voucher</th>
+                                                <th>Amount</th>
+                                                <th>Description</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="recon-ledger-tbody">
+                                            <!-- Dynamic internal transactions -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="recon-side-statement">
+                                <h3>External Statement Mock Parser</h3>
+                                <div class="statement-file-upload">
+                                    <i class="fa-solid fa-file-csv upload-icon"></i>
+                                    <p>Select Bank Statement CSV to Reconcile</p>
+                                    <input type="file" id="recon-file-input" accept=".csv" class="file-input" />
+                                    <button class="btn btn-secondary btn-sm" id="btn-parse-mock-statement">Simulate Statement Load</button>
+                                </div>
+
+                                <div class="table-responsive mt-3">
+                                    <table class="premium-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Action</th>
+                                                <th>Statement Date</th>
+                                                <th>Transaction Description</th>
+                                                <th>Amount</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="recon-statement-tbody">
+                                            <!-- Dynamic statement lines -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="recon-summary-bar mt-4" id="recon-summary-panel" style="display: none;">
+                            <div class="recon-summary-item">
+                                <span>Ledger Balance:</span>
+                                <strong id="recon-ledger-bal">₹0.00</strong>
+                            </div>
+                            <div class="recon-summary-item">
+                                <span>Unreconciled Difference:</span>
+                                <strong id="recon-diff-bal" class="text-warning">₹0.00</strong>
+                            </div>
+                            <button class="btn btn-success" id="btn-finalize-reconciliation">Commit Reconciliation Check</button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- TAB: LOANS & CREDIT FACILITIES -->
+                <section id="tab-loans" class="tab-pane">
+                    <div class="panel-header">
+                        <h1>Corporate Credit Lines & Loan Facilities</h1>
+                        <p>Set interest rates, manage credit limits, and view monthly reducing balance schedules</p>
+                    </div>
+
+                    <div class="split-layout">
+                        <div class="layout-main">
+                            <div class="glass-card">
+                                <div class="card-header">
+                                    <h2>Active Corporate Facilities</h2>
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="premium-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Facility Name</th>
+                                                <th>Associated Account</th>
+                                                <th>Credit Limit</th>
+                                                <th>Rate (p.a.)</th>
+                                                <th>Term</th>
+                                                <th>Outstanding</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="loans-tbody">
+                                            <!-- Dynamic loans list -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="glass-card mt-4" id="loan-schedule-card" style="display: none;">
+                                <div class="card-header">
+                                    <h2 id="loan-schedule-title">Amortization Schedule</h2>
+                                    <div class="loan-stats-header">
+                                        <span>EMI: <strong id="loan-schedule-emi">₹0.00</strong></span>
+                                        <span class="ml-3">Total Interest: <strong id="loan-schedule-interest">₹0.00</strong></span>
+                                    </div>
+                                </div>
+                                <div class="table-responsive schedule-table-container">
+                                    <table class="premium-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Month</th>
+                                                <th>EMI Paid</th>
+                                                <th>Principal Component</th>
+                                                <th>Interest Component</th>
+                                                <th>Remaining Principal</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="loan-schedule-tbody">
+                                            <!-- Dynamic schedule lines -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="layout-side">
+                            <div class="glass-card">
+                                <div class="card-header">
+                                    <h2>Issue Term Loan / Facility</h2>
+                                </div>
+                                <form id="form-create-loan" class="premium-form">
+                                    <div class="form-group">
+                                        <label for="loan-account">Disbursal Account</label>
+                                        <select id="loan-account" required>
+                                            <!-- Dynamic accounts -->
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="loan-name">Facility Name</label>
+                                        <input type="text" id="loan-name" placeholder="e.g. Commercial Loan" required />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="loan-limit">Sanctioned Limit (₹)</label>
+                                        <input type="number" id="loan-limit" placeholder="Limit" required />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="loan-rate">Annual Interest Rate (%)</label>
+                                        <input type="number" id="loan-rate" value="9.0" step="0.1" required />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="loan-term">Term (Months)</label>
+                                        <input type="number" id="loan-term" value="12" required />
+                                    </div>
+                                    <button type="submit" class="btn btn-primary btn-block">Sanction Loan Limit</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- TAB: INVOICES -->
+                <section id="tab-invoices" class="tab-pane">
+                    <div class="panel-header">
+                        <h1>Invoices & Customer Ledgers</h1>
+                        <p>Draft customer invoices, track outstanding assets and exchange currencies</p>
+                    </div>
+
+                    <div class="split-layout">
+                        <div class="layout-main">
+                            <div class="glass-card">
+                                <div class="card-header">
+                                    <h2>All Customer Invoices</h2>
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="premium-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Reference Number</th>
+                                                <th>Customer Name</th>
+                                                <th>Invoice Date</th>
+                                                <th>Total Amount</th>
+                                                <th>Workflow Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="invoices-tbody">
+                                            <!-- Dynamic invoices -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="layout-side">
+                            <div class="glass-card">
+                                <div class="card-header">
+                                    <h2>Submit Sales Invoice</h2>
+                                </div>
+                                <form id="form-create-invoice" class="premium-form">
+                                    <div class="form-group">
+                                        <label for="inv-ref">Reference Number</label>
+                                        <input type="text" id="inv-ref" placeholder="INV-2026-XXXX" required />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inv-customer">Customer Name</label>
+                                        <input type="text" id="inv-customer" placeholder="Enter customer company" required />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inv-date">Invoice Date</label>
+                                        <input type="date" id="inv-date" required />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inv-amount">Invoice Amount</label>
+                                        <input type="number" id="inv-amount" placeholder="0.00" step="0.01" required />
+                                    </div>
+                                    
+                                    <!-- Dynamic Currency Converter Box -->
+                                    <div class="currency-converter-card mb-3">
+                                        <label>Corporate Currency Converter</label>
+                                        <div class="currency-converter-row">
+                                            <select id="inv-currency">
+                                                <option value="INR">INR (₹)</option>
+                                                <option value="USD">USD ($)</option>
+                                                <option value="EUR">EUR (€)</option>
+                                                <option value="GBP">GBP (£)</option>
+                                            </select>
+                                            <span id="converted-rate-display">₹0.00</span>
+                                        </div>
+                                    </div>
+
+                                    <button type="submit" class="btn btn-primary btn-block">Queue Invoice Request</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- TAB: VENDOR PAYMENTS -->
+                <section id="tab-payments" class="tab-pane">
+                    <div class="panel-header">
+                        <h1>Vendor Payment Processing</h1>
+                        <p>Disburse capital accounts payable with custom GST calculations</p>
+                    </div>
+
+                    <div class="split-layout">
+                        <div class="layout-main">
+                            <div class="glass-card">
+                                <div class="card-header">
+                                    <h2>Vendor Payments Ledger</h2>
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="premium-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Vendor Name</th>
+                                                <th>GSTIN</th>
+                                                <th>Invoice No.</th>
+                                                <th>Tax Amount</th>
+                                                <th>Total Amount</th>
+                                                <th>Payment Mode</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="payments-tbody">
+                                            <!-- Dynamic payments -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="layout-side">
+                            <div class="glass-card">
+                                <div class="card-header">
+                                    <h2>Process Vendor Payment</h2>
+                                </div>
+                                <form id="form-create-payment" class="premium-form">
+                                    <div class="form-group">
+                                        <label for="vp-vendor">Vendor Name</label>
+                                        <input type="text" id="vp-vendor" placeholder="Supplier corporate name" required />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="vp-gst">Vendor GSTIN</label>
+                                        <input type="text" id="vp-gst" placeholder="e.g. 27AAAAA0000A1Z5" required />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="vp-invoice">Invoice Number</label>
+                                        <input type="text" id="vp-invoice" placeholder="Invoice Code" required />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="vp-date">Invoice Date</label>
+                                        <input type="date" id="vp-date" required />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="vp-amount">Invoice Base Amount (₹)</label>
+                                        <input type="number" id="vp-amount" placeholder="Base Amount" step="0.01" required />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="vp-tax">GST Tax Amount (₹)</label>
+                                        <input type="number" id="vp-tax" placeholder="GST 18% standard auto-calc" step="0.01" />
+                                        <small class="text-muted"><a href="#" id="lnk-autocalc-gst">Click to Auto-Calculate 18% GST</a></small>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="vp-paymode">Payment Mode</label>
+                                        <select id="vp-paymode" required>
+                                            <option value="IMPS">IMPS Banking Transfer</option>
+                                            <option value="NEFT">NEFT Settlement</option>
+                                            <option value="RTGS">RTGS High-Value</option>
+                                            <option value="WIRE">International Wire</option>
+                                            <option value="ACH">ACH Debit</option>
+                                        </select>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary btn-block">Initiate Payment Voucher</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- TAB: DEPRECIATION SCHEDULES -->
+                <section id="tab-depreciation" class="tab-pane">
+                    <div class="panel-header">
+                        <h1>Fixed Asset Depreciation Schedules</h1>
+                        <p>Calculate amortization curves using Straight Line and Declining Balance methods</p>
+                    </div>
+
+                    <div class="split-layout">
+                        <div class="layout-main">
+                            <div class="glass-card">
+                                <div class="card-header">
+                                    <h2>Depreciation Records</h2>
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="premium-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Asset Name</th>
+                                                <th>Cost</th>
+                                                <th>Salvage</th>
+                                                <th>Rate (%)</th>
+                                                <th>Life (Yrs)</th>
+                                                <th>Method</th>
+                                                <th>Yearly Dep.</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="depreciation-tbody">
+                                            <!-- Dynamic depreciation -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="layout-side">
+                            <div class="glass-card">
+                                <div class="card-header">
+                                    <h2>Calculate Depreciation</h2>
+                                </div>
+                                <form id="form-create-depreciation" class="premium-form">
+                                    <div class="form-group">
+                                        <label for="dep-name">Asset Name</label>
+                                        <input type="text" id="dep-name" placeholder="e.g. MacBook Pro M3 Max" required />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="dep-cost">Purchase Cost (₹)</label>
+                                        <input type="number" id="dep-cost" placeholder="Asset price" required />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="dep-salvage">Salvage Value (₹)</label>
+                                        <input type="number" id="dep-salvage" placeholder="Scrap value" required />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="dep-life">Useful Life (Years)</label>
+                                        <input type="number" id="dep-life" placeholder="Years of usage" required />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="dep-method">Depreciation Method</label>
+                                        <select id="dep-method" required>
+                                            <option value="STRAIGHT_LINE">Straight Line Method</option>
+                                            <option value="DECLINING_BALANCE">Written Down Value / Declining Balance</option>
+                                        </select>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary btn-block">Add Depreciation Curve</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- TAB: GST & TAX FILING -->
+                <section id="tab-tax-gst" class="tab-pane">
+                    <div class="panel-header">
+                        <h1>Tax Filing & Compliance Center</h1>
+                        <p>Review Net GST Liability, submit Income Tax forms, and preview JSON payloads</p>
+                    </div>
+
+                    <div class="split-layout">
+                        <div class="layout-main">
+                            <div class="glass-card">
+                                <div class="card-header">
+                                    <h2>Submitted Returns</h2>
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="premium-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Tax Year / Period</th>
+                                                <th>Filing Type</th>
+                                                <th>Gross Turnover</th>
+                                                <th>Net Tax Due</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tax-gst-tbody">
+                                            <!-- Dynamic tax returns -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="layout-side">
+                            <div class="glass-card">
+                                <div class="card-header">
+                                    <h2>File Tax/GST Return</h2>
+                                </div>
+                                <form id="form-create-tax" class="premium-form">
+                                    <div class="form-group">
+                                        <label for="tax-type">Return Category</label>
+                                        <select id="tax-type" required>
+                                            <option value="GST-3B">GSTR-3B monthly return</option>
+                                            <option value="GST-1">GSTR-1 outward supplies</option>
+                                            <option value="INCOME_TAX">Income Tax Return (ITR-6)</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="tax-period">Period / Assessment Year</label>
+                                        <input type="text" id="tax-period" placeholder="e.g. Q1 2026-27" required />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="tax-turnover">Gross Taxable Turnover (₹)</label>
+                                        <input type="number" id="tax-turnover" placeholder="Revenue" required />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="tax-due">Tax Calculated (₹)</label>
+                                        <input type="number" id="tax-due" placeholder="Tax liability" required />
+                                    </div>
+                                    
+                                    <div class="compliance-box success-box mb-3">
+                                        <i class="fa-solid fa-check-double text-success"></i>
+                                        <span>Corporate signatures attached. Ready for upload.</span>
+                                    </div>
+                                    
+                                    <button type="submit" class="btn btn-primary btn-block">Transmit Filing Payload</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- TAB: PROCUREMENT TENDERS -->
+                <section id="tab-tenders" class="tab-pane">
+                    <div class="panel-header">
+                        <h1>Procurement Tenders Portal</h1>
+                        <p>Browse open commercial tenders and bid records</p>
+                    </div>
+
+                    <div class="glass-card">
+                        <div class="card-header">
+                            <h2>Open Procurement Tenders</h2>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="premium-table">
+                                <thead>
+                                    <tr>
+                                        <th>Tender Title</th>
+                                        <th>Department</th>
+                                        <th>Description</th>
+                                        <th>Due Date</th>
+                                        <th>Status</th>
+                                        <th>Operations</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tenders-tbody">
+                                    <!-- Dynamic tenders -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- TAB: COMPLIANCE AUDIT LOGS -->
+                <section id="tab-compliance" class="tab-pane">
+                    <div class="panel-header">
+                        <h1>Compliance Audits & AML Logs</h1>
+                        <p>Secure activity stream generated by corporate users and API calls</p>
+                    </div>
+
+                    <div class="glass-card">
+                        <div class="card-header">
+                            <h2>Full Database Audit Stream (Immutable Logs)</h2>
+                            <button class="btn btn-secondary btn-sm" id="btn-refresh-logs">
+                                <i class="fa-solid fa-arrows-rotate"></i> Reload Logs
+                            </button>
+                        </div>
+                        <div class="table-responsive log-table-container">
+                            <table class="premium-table font-mono">
+                                <thead>
+                                    <tr>
+                                        <th>Timestamp</th>
+                                        <th>User Node</th>
+                                        <th>Role Authority</th>
+                                        <th>Operation Executed</th>
+                                        <th>Client IP</th>
+                                        <th>Browser User-Agent</th>
+                                        <th>Risk Indicator</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="compliance-logs-tbody">
+                                    <!-- Dynamic audit logs -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- TAB: CA KNOWLEDGE BASE -->
+                <section id="tab-knowledge" class="tab-pane">
+                    <div class="panel-header">
+                        <h1>Chartered Accountant Knowledge Base</h1>
+                        <p>Search accounting formulas, GST regulations, and double-entry standards</p>
+                    </div>
+
+                    <div class="split-layout">
+                        <div class="layout-main">
+                            <div class="glass-card" id="knowledge-topic-details">
+                                <div class="empty-state">
+                                    <i class="fa-solid fa-book-bookmark"></i>
+                                    <p>Select a knowledge topic from the list to view detailed guidelines and formulas</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="layout-side">
+                            <div class="glass-card">
+                                <div class="card-header">
+                                    <h2>Available Core Topics</h2>
+                                </div>
+                                <div class="list-group" id="knowledge-topics-list">
+                                    <!-- Dynamic list -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Core Scripts -->
+    <script th:src="@{/js/dashboard.js}"></script>
+</body>
+</html>
